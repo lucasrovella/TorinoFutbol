@@ -15,13 +15,7 @@
 
     $consulta_inicio_sesion = mysqli_query($conexion, "SELECT id, nombre, apellido, email, rol FROM usuarios WHERE email='$email' AND pass='$pass'");
     $resultado_inicio_sesion = mysqli_num_rows($consulta_inicio_sesion);
-    $datos_generales_usuario = mysqli_fetch_assoc($consulta_inicio_sesion);
-    $usuario_id = intval($datos_generales_usuario["id"]);
-    $consulta_datos_cliente = mysqli_query($conexion, "SELECT dni, id_usuario, faltas, racha, penalizacion, saldo_a_favor
-                                                       FROM clientes WHERE id_usuario = $usuario_id");
-    $datos_cliente = mysqli_fetch_array($consulta_datos_cliente);
-    $racha = intval($datos_cliente["racha"]);
-
+    
     if($resultado_inicio_sesion == 0){
         echo "<span id='modal_background' style='display:block';></span>";
         include("./modal_fail.php");
@@ -29,6 +23,14 @@
     }
     else
     {
+    
+    $datos_generales_usuario = mysqli_fetch_assoc($consulta_inicio_sesion);
+    $usuario_id = intval($datos_generales_usuario["id"]);
+    $consulta_datos_cliente = mysqli_query($conexion, "SELECT dni, id_usuario, faltas, racha, penalizacion, saldo_a_favor
+                                                       FROM clientes WHERE id_usuario = $usuario_id");
+    $datos_cliente = mysqli_fetch_array($consulta_datos_cliente);
+    $racha = intval($datos_cliente["racha"]);
+
         session_start();
         include("consultar_nivel.php");
 
